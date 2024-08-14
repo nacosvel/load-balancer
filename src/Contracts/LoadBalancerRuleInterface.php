@@ -8,6 +8,6 @@ interface LoadBalancerRuleInterface
 
     public function setLoadBalancer(LoadBalancerInterface $loadBalancer): static;
 
-    public function choose(int $key = 1): static;
+    public function choose(int $key = 0): ServerInstanceInterface;
 
 }

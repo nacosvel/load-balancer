@@ -4,6 +4,7 @@ namespace Nacosvel\LoadBalancer\Rules;
 
 use Nacosvel\LoadBalancer\Contracts\LoadBalancerInterface;
 use Nacosvel\LoadBalancer\Contracts\LoadBalancerRuleInterface;
+use Nacosvel\LoadBalancer\Contracts\ServerInstanceInterface;
 
 abstract class AbstractLoadBalancerRule implements LoadBalancerRuleInterface
 {
@@ -20,6 +21,6 @@ abstract class AbstractLoadBalancerRule implements LoadBalancerRuleInterface
         return $this;
     }
 
-    abstract public function choose(int $key = 1): static;
+    abstract public function choose(int $key = 0): ServerInstanceInterface;
 
 }
