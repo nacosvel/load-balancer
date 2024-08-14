@@ -13,7 +13,7 @@ use Nacosvel\LoadBalancer\Server\ServerInstance;
  * @template TKey
  * @template TValue
  */
-trait ArrayObjectTrait
+trait ArrayableTrait
 {
 
     /**
@@ -118,18 +118,6 @@ trait ArrayObjectTrait
     public function toArray(): array
     {
         return $this->getArrayCopy();
-    }
-
-    /**
-     * Get the number of public properties in the ArrayObject
-     * When the <b>ArrayObject</b> is constructed from an array all properties are public.
-     *
-     * @link https://php.net/manual/en/arrayobject.count.php
-     * @return int The number of public properties in the ArrayObject.
-     */
-    public function length(): int
-    {
-        return count($this);
     }
 
 }

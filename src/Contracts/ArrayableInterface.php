@@ -2,10 +2,8 @@
 
 namespace Nacosvel\LoadBalancer\Contracts;
 
-interface ArrayObjectInterface
+interface ArrayableInterface
 {
     public function toArray(): array;
-
-    public function length(): int;
 
 }
