@@ -7,9 +7,9 @@ use Nacosvel\LoadBalancer\Server\AbstractServerList;
 use Nacosvel\LoadBalancer\Server\ServerInstance;
 
 /**
- * This class allows objects to work as arrays.
+ * This iterator allows to unset and modify values and keys while iterating over Arrays and Objects.
  *
- * @link https://php.net/manual/en/class.arrayobject.php
+ * @link https://php.net/manual/en/class.arrayiterator.php
  * @template TKey
  * @template TValue
  */
@@ -17,12 +17,12 @@ trait ArrayableTrait
 {
 
     /**
-     * Sets the value at the specified index to newval
+     * Set value for an offset
      *
-     * @link https://php.net/manual/en/arrayobject.offsetset.php
+     * @link https://php.net/manual/en/arrayiterator.offsetset.php
      *
-     * @param TKey   $key   The index being set.
-     * @param TValue $value The new value for the <i>index</i>.
+     * @param TKey   $key   The index to set for.
+     * @param TValue $value The new value to store at the index.
      *
      * @return void
      */
@@ -33,11 +33,11 @@ trait ArrayableTrait
     }
 
     /**
-     * Appends the value
+     * Append an element
      *
-     * @link https://php.net/manual/en/arrayobject.append.php
+     * @link https://php.net/manual/en/arrayiterator.append.php
      *
-     * @param TValue $value The value being appended.
+     * @param TValue $value The value to append.
      *
      * @return void
      */
@@ -48,25 +48,39 @@ trait ArrayableTrait
     }
 
     /**
-     * Exchange the array for another one.
+     * Exchange the Iterator for another one.
      *
-     * @link https://php.net/manual/en/arrayobject.exchangearray.php
+     * @param mixed $serverInstances The new array or object to exchange with the current Iterator.
      *
-     * @param mixed $array The new array or object to exchange with the current array.
-     *
-     * @return array the old array.
+     * @return array the old iterator.
      */
-    public function exchangeArray(object|array $array): array
+    public function exchangeIterator(object|array $serverInstances): array
     {
-        assert(is_array($array) || $array instanceof AbstractServerList);
+        assert(is_array($serverInstances) || $serverInstances instanceof AbstractServerList);
 
-        if (is_object($array)) {
-            return parent::exchangeArray($array->toArray());
+        if (is_object($serverInstances)) {
+            $serverInstances = $serverInstances->getArrayCopy();
         }
 
-        $array = array_is_list($array) ? $this->createServerInstanceWithoutWeight($array) : $this->createServerInstanceWithWeight($array);
+        $oldServerInstances = $this->getArrayCopy();
 
-        return parent::exchangeArray($array);
+        // To avoid this bug you can call offsetUnset in the for loop
+        // @see https://www.php.net/manual/zh/arrayiterator.offsetunset.php
+        for ($this->rewind(); $this->valid();) {
+            $this->offsetUnset($this->key());
+        }
+
+        if (array_is_list($serverInstances)) {
+            $serverInstances = $this->createServerInstanceWithoutWeight($serverInstances);
+        } else {
+            $serverInstances = $this->createServerInstanceWithWeight($serverInstances);
+        }
+
+        foreach ($serverInstances as $key => $value) {
+            $this->offsetSet($key, $value);
+        }
+
+        return $oldServerInstances;
     }
 
     /**
@@ -109,11 +123,11 @@ trait ArrayableTrait
     }
 
     /**
-     * Creates a copy of the ArrayObject.
+     * Creates a copy of the ArrayIterator.
      *
-     * @link https://php.net/manual/en/arrayobject.getarraycopy.php
-     * @return array a copy of the array. When the <b>ArrayObject</b> refers to an object
-     * an array of the public properties of that object will be returned.
+     * @link https://php.net/manual/en/arrayiterator.getarraycopy.php
+     * @return array A copy of the array. When the ArrayIterator refers to an object an array of the public properties of that object will be returned.
+     *
      */
     public function toArray(): array
     {
