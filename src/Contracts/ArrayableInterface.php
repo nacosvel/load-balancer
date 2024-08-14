@@ -2,7 +2,9 @@
 
 namespace Nacosvel\LoadBalancer\Contracts;
 
-interface ArrayableInterface
+use SeekableIterator;
+
+interface ArrayableInterface extends SeekableIterator
 {
     public function toArray(): array;
 

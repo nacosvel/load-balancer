@@ -4,11 +4,10 @@ namespace Nacosvel\LoadBalancer\Server;
 
 use ArrayIterator;
 use Nacosvel\LoadBalancer\Concerns\ArrayableTrait;
-use Nacosvel\LoadBalancer\Contracts\ArrayableInterface;
 use Nacosvel\LoadBalancer\Contracts\ServerInstanceInterface;
 use Nacosvel\LoadBalancer\Contracts\ServerListInterface;
 
-abstract class AbstractServerList extends ArrayIterator implements ArrayableInterface, ServerListInterface
+abstract class AbstractServerList extends ArrayIterator implements ServerListInterface
 {
     use ArrayableTrait;
 

@@ -12,6 +12,7 @@ class ServerList extends AbstractServerList
      *         $serverList = new ServerList('127.0.0.1:8848/nacos,https://127.0.0.1:8848');
      *         $serverList = new ServerList(['127.0.0.1:8848/nacos', 'https://127.0.0.1:8848']);
      *         $serverList = new ServerList(['127.0.0.1:8848/nacos' => 5, 'https://127.0.0.1:8848' => 8.5]);
+     *         $serverList = new ServerList($serverList);
      */
     public function __construct(string|array $server_addresses = [])
     {
