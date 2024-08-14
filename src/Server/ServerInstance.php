@@ -11,7 +11,11 @@ class ServerInstance implements ServerInstanceInterface
 {
     use ServerInstanceTrait;
 
-    protected int       $hashCode      = 0;
+    protected int $hashCode = 0;
+
+    /**
+     * @var ServerInstance[]
+     */
     public static array $hashCodeTable = [];
 
     public function __construct(
@@ -81,12 +85,13 @@ class ServerInstance implements ServerInstanceInterface
 
     protected function buildHashCode(): static
     {
-        $originalHashCode      = $this->hashCode;
-        $this->hashCode        = Utils::hashCode(serialize($this));
-        self::$hashCodeTable   = array_filter(self::$hashCodeTable, function ($hashCode) use ($originalHashCode) {
-            return !($originalHashCode && $originalHashCode === $hashCode);
-        });
-        self::$hashCodeTable[] = $this->hashCode;
+        if (array_key_exists($this->hashCode, self::$hashCodeTable)) {
+            unset(self::$hashCodeTable[$this->hashCode]);
+        }
+
+        $this->hashCode = Utils::hashCode(serialize($this));
+
+        self::$hashCodeTable[$this->hashCode] = $this;
 
         return $this;
     }
