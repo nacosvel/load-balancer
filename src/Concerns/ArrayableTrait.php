@@ -5,27 +5,27 @@ namespace Nacosvel\LoadBalancer\Concerns;
 use Nacosvel\LoadBalancer\Contracts\ServerInstanceInterface;
 use Nacosvel\LoadBalancer\Server\AbstractServerIterator;
 use Nacosvel\LoadBalancer\Server\ServerInstance;
+use Override;
+use ReturnTypeWillChange;
 
 /**
  * This iterator allows to unset and modify values and keys while iterating over Arrays and Objects.
  *
  * @link https://php.net/manual/en/class.arrayiterator.php
- * @template TKey
- * @template TValue
  */
 trait ArrayableTrait
 {
-
     /**
      * Set value for an offset
      *
      * @link https://php.net/manual/en/arrayiterator.offsetset.php
      *
-     * @param TKey   $key   The index to set for.
-     * @param TValue $value The new value to store at the index.
+     * @param mixed                   $key   The index to set for.
+     * @param ServerInstanceInterface $value The new value to store at the index.
      *
      * @return void
      */
+    #[Override]
     public function offsetSet(mixed $key, mixed $value): void
     {
         assert($value instanceof ServerInstanceInterface);
@@ -37,10 +37,11 @@ trait ArrayableTrait
      *
      * @link https://php.net/manual/en/arrayiterator.append.php
      *
-     * @param TValue $value The value to append.
+     * @param ServerInstanceInterface $value The value to append.
      *
      * @return void
      */
+    #[Override]
     public function append(mixed $value): void
     {
         assert($value instanceof ServerInstanceInterface);
@@ -52,7 +53,7 @@ trait ArrayableTrait
      *
      * @param AbstractServerIterator|array $serverInstances The new array or object to exchange with the current Iterator.
      *
-     * @return array the old iterator.
+     * @return ServerInstanceInterface[] the old iterator.
      */
     public function exchangeIterator(AbstractServerIterator|array $serverInstances): array
     {
@@ -86,7 +87,7 @@ trait ArrayableTrait
      *
      * @param array $serverInstances
      *
-     * @return array
+     * @return ServerInstanceInterface[]
      */
     private function createServerInstanceWithWeight(array $serverInstances): array
     {
@@ -103,7 +104,7 @@ trait ArrayableTrait
      *
      * @param array $serverInstances
      *
-     * @return array
+     * @return ServerInstanceInterface[]
      */
     private function createServerInstanceWithoutWeight(array $serverInstances): array
     {
@@ -124,12 +125,43 @@ trait ArrayableTrait
      * Creates a copy of the ArrayIterator.
      *
      * @link https://php.net/manual/en/arrayiterator.getarraycopy.php
-     * @return array A copy of the array. When the ArrayIterator refers to an object an array of the public properties of that object will be returned.
+     * @return ServerInstanceInterface[] A copy of the array. When the ArrayIterator refers to an object an array of the public properties of that object will be returned.
      *
      */
     public function toArray(): array
     {
         return $this->getArrayCopy();
+    }
+
+    /**
+     * Get value for an offset
+     *
+     * @override
+     *
+     * @link https://php.net/manual/en/arrayiterator.offsetget.php
+     *
+     * @param mixed $key The offset to get the value from.
+     *
+     * @return ServerInstanceInterface The value at offset <i>index</i>.
+     */
+    #[Override]
+    #[ReturnTypeWillChange]
+    public function offsetGet(mixed $key): ServerInstanceInterface
+    {
+        return parent::offsetGet($key);
+    }
+
+    /**
+     * Return current array entry
+     *
+     * @link https://php.net/manual/en/arrayiterator.current.php
+     * @return ServerInstanceInterface The current array entry.
+     */
+    #[Override]
+    #[ReturnTypeWillChange]
+    public function current(): ServerInstanceInterface
+    {
+        return parent::current();
     }
 
 }
