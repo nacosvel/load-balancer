@@ -2,7 +2,7 @@
 
 namespace Nacosvel\LoadBalancer\Exceptions;
 
-class LoadBalancerExceptions extends \RuntimeException
+class LoadBalancerExceptions extends \Exception implements \Throwable
 {
 
 }
