@@ -14,9 +14,8 @@ class LoadBalancer extends AbstractLoadBalancer
         ?LoadBalancerRuleInterface           $rule = null
     )
     {
-        $this->serverIterator   = $serverAddresses instanceof ServerIteratorInterface ? $serverAddresses : new ServerIterator($serverAddresses);
-        $this->loadBalancerRule = $rule instanceof LoadBalancerRuleInterface ? $rule : new RandomRule();
-        $this->loadBalancerRule->setLoadBalancer($this);
+        $this->setServerAddresses($serverAddresses instanceof ServerIteratorInterface ? $serverAddresses : new ServerIterator($serverAddresses));
+        $this->setRule($rule instanceof LoadBalancerRuleInterface ? $rule : new RandomRule());
     }
 
     /**
@@ -42,6 +41,8 @@ class LoadBalancer extends AbstractLoadBalancer
     public function setRule(LoadBalancerRuleInterface $rule): static
     {
         $this->loadBalancerRule = $rule;
+        $this->loadBalancerRule->setLoadBalancer($this);
+
         return $this;
     }
 
