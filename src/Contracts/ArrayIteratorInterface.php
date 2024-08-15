@@ -10,7 +10,7 @@ interface ArrayIteratorInterface extends SeekableIterator
 
     public function offsetGet(mixed $key): ServerInstanceInterface;
 
-    public function offsetSet(mixed $key, mixed $value): void;
+    public function offsetSet(int $key, mixed $value): void;
 
     public function offsetUnset(mixed $key): void;
 

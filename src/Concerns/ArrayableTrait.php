@@ -20,7 +20,7 @@ trait ArrayableTrait
      *
      * @link https://php.net/manual/en/arrayiterator.offsetset.php
      *
-     * @param mixed                   $key   The index to set for.
+     * @param int                     $key   The index to set for.
      * @param ServerInstanceInterface $value The new value to store at the index.
      *
      * @return void
@@ -162,6 +162,19 @@ trait ArrayableTrait
     public function current(): ServerInstanceInterface
     {
         return parent::current();
+    }
+
+    /**
+     * Return current array key
+     *
+     * @link https://php.net/manual/en/arrayiterator.key.php
+     * @return int The key of the current element.
+     */
+    #[Override]
+    #[ReturnTypeWillChange]
+    public function key(): int
+    {
+        return parent::key();
     }
 
 }
