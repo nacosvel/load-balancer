@@ -12,6 +12,12 @@ use Nacosvel\LoadBalancer\Exceptions\UnderflowExceptions;
 use Nacosvel\LoadBalancer\Server\ServerInstance;
 use OutOfBoundsException;
 
+/**
+ * 轮询策略
+ * 从服务端列表里面循环获取服务实例
+ *
+ * @meta 适用于集群中各个节点提供服务能力等同且无状态的场景
+ */
 class RoundRule extends AbstractLoadBalancerRule implements LoadBalancerRuleInterface
 {
     private static int $nextTick     = -1;
@@ -31,8 +37,7 @@ class RoundRule extends AbstractLoadBalancerRule implements LoadBalancerRuleInte
         assert($reachableServers->count(), new UnderflowExceptions('There are no more reachable servers available'));
 
         try {
-            $offset = $this->getNextTick($reachableServers, $reachableServers->count());
-            $reachableServers->seek($offset);
+            $reachableServers->seek($this->getNextTick($reachableServers, $reachableServers->count()));
         } catch (OutOfBoundsException $exception) {
             return $this->choose($key);
         } catch (Exception $exception) {
