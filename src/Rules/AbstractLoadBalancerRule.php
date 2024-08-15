@@ -10,6 +10,11 @@ abstract class AbstractLoadBalancerRule implements LoadBalancerRuleInterface
 {
     protected LoadBalancerInterface $loadBalancer;
 
+    final public function __construct()
+    {
+        //
+    }
+
     public function getLoadBalancer(): LoadBalancerInterface
     {
         return $this->loadBalancer;
