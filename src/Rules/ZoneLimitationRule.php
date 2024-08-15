@@ -26,7 +26,7 @@ class ZoneLimitationRule extends AbstractLoadBalancerRule implements LoadBalance
     /**
      * @throws LoadBalancerExceptions
      */
-    public function choose(int $key = 1): ServerInstanceInterface
+    public function choose(int $key = 0): ServerInstanceInterface
     {
         if (array_key_exists($key, ServerInstance::$hashCodeTable) && ServerInstance::$hashCodeTable[$key]->isAlive()) {
             return ServerInstance::$hashCodeTable[$key];
