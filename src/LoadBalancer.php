@@ -21,13 +21,13 @@ class LoadBalancer extends AbstractLoadBalancer
     /**
      * 服务实例清单更新
      *
-     * @param ServerIteratorInterface $serverIterator
+     * @param ServerIteratorInterface $servers
      *
      * @return static
      */
-    public function setServerAddresses(ServerIteratorInterface $serverIterator): static
+    public function setServerAddresses(ServerIteratorInterface $servers): static
     {
-        $this->serverIterator = $serverIterator;
+        $this->servers = $servers;
         return $this;
     }
 

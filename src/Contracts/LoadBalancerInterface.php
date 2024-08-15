@@ -4,7 +4,7 @@ namespace Nacosvel\LoadBalancer\Contracts;
 
 interface LoadBalancerInterface
 {
-    public function setServerAddresses(ServerIteratorInterface $serverIterator): static;
+    public function setServerAddresses(ServerIteratorInterface $servers): static;
 
     public function setRule(LoadBalancerRuleInterface $rule): static;
 
@@ -14,8 +14,8 @@ interface LoadBalancerInterface
 
     public function chooseServer(int $key = 0): ServerInstanceInterface;
 
-    public function markServerUp(ServerInstanceInterface $server): ServerInstanceInterface;
+    public function markServerUp(ServerInstanceInterface $instance): ServerInstanceInterface;
 
-    public function markServerDown(ServerInstanceInterface $server): ServerInstanceInterface;
+    public function markServerDown(ServerInstanceInterface $instance): ServerInstanceInterface;
 
 }

@@ -9,11 +9,10 @@ use Nacosvel\LoadBalancer\Contracts\ServerIteratorInterface;
 
 abstract class AbstractLoadBalancer implements LoadBalancerInterface
 {
-    protected ServerIteratorInterface   $serverIterator;
-    protected ServerInstanceInterface   $server;
+    protected ServerIteratorInterface   $servers;
     protected LoadBalancerRuleInterface $loadBalancerRule;
 
-    abstract public function setServerAddresses(ServerIteratorInterface $serverIterator): static;
+    abstract public function setServerAddresses(ServerIteratorInterface $servers): static;
 
     abstract public function setRule(LoadBalancerRuleInterface $rule): static;
 
@@ -24,7 +23,7 @@ abstract class AbstractLoadBalancer implements LoadBalancerInterface
      */
     public function getReachableServers(): ServerIteratorInterface
     {
-        return $this->serverIterator->getReachableServers();
+        return $this->servers->getReachableServers();
     }
 
     /**
@@ -34,7 +33,7 @@ abstract class AbstractLoadBalancer implements LoadBalancerInterface
      */
     public function getAllServers(): ServerIteratorInterface
     {
-        return $this->serverIterator->getAllServers();
+        return $this->servers->getAllServers();
     }
 
     /**
@@ -46,31 +45,31 @@ abstract class AbstractLoadBalancer implements LoadBalancerInterface
      */
     public function chooseServer(int $key = 0): ServerInstanceInterface
     {
-        return $this->server = $this->loadBalancerRule->choose($key);
+        return $this->loadBalancerRule->choose($key);
     }
 
     /**
      * 标记某个服务实例正常服务
      *
-     * @param ServerInstanceInterface $server
+     * @param ServerInstanceInterface $instance
      *
      * @return ServerInstanceInterface
      */
-    public function markServerUp(ServerInstanceInterface $server): ServerInstanceInterface
+    public function markServerUp(ServerInstanceInterface $instance): ServerInstanceInterface
     {
-        return $server->setAlive(true);
+        return $instance->setAlive(true);
     }
 
     /**
      * 标记某个服务实例暂停服务
      *
-     * @param ServerInstanceInterface $server
+     * @param ServerInstanceInterface $instance
      *
      * @return ServerInstanceInterface
      */
-    public function markServerDown(ServerInstanceInterface $server): ServerInstanceInterface
+    public function markServerDown(ServerInstanceInterface $instance): ServerInstanceInterface
     {
-        return $server->setAlive(false);
+        return $instance->setAlive(false);
     }
 
 }
