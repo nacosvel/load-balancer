@@ -3,7 +3,7 @@
 namespace Nacosvel\LoadBalancer\Concerns;
 
 use Nacosvel\LoadBalancer\Contracts\ServerInstanceInterface;
-use Nacosvel\LoadBalancer\Server\AbstractServerList;
+use Nacosvel\LoadBalancer\Server\AbstractServerIterator;
 use Nacosvel\LoadBalancer\Server\ServerInstance;
 
 /**
@@ -50,14 +50,12 @@ trait ArrayableTrait
     /**
      * Exchange the Iterator for another one.
      *
-     * @param mixed $serverInstances The new array or object to exchange with the current Iterator.
+     * @param AbstractServerIterator|array $serverInstances The new array or object to exchange with the current Iterator.
      *
      * @return array the old iterator.
      */
-    public function exchangeIterator(object|array $serverInstances): array
+    public function exchangeIterator(AbstractServerIterator|array $serverInstances): array
     {
-        assert(is_array($serverInstances) || $serverInstances instanceof AbstractServerList);
-
         if (is_object($serverInstances)) {
             $serverInstances = $serverInstances->getArrayCopy();
         }

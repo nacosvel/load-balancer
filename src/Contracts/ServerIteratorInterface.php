@@ -2,7 +2,7 @@
 
 namespace Nacosvel\LoadBalancer\Contracts;
 
-interface ServerListInterface extends ArrayableInterface
+interface ServerIteratorInterface extends ArrayableInterface
 {
     public function getReachableServers(): static;
 

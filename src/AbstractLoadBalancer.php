@@ -5,36 +5,36 @@ namespace Nacosvel\LoadBalancer;
 use Nacosvel\LoadBalancer\Contracts\LoadBalancerInterface;
 use Nacosvel\LoadBalancer\Contracts\LoadBalancerRuleInterface;
 use Nacosvel\LoadBalancer\Contracts\ServerInstanceInterface;
-use Nacosvel\LoadBalancer\Contracts\ServerListInterface;
+use Nacosvel\LoadBalancer\Contracts\ServerIteratorInterface;
 
 abstract class AbstractLoadBalancer implements LoadBalancerInterface
 {
-    protected ServerListInterface       $serverList;
+    protected ServerIteratorInterface   $serverIterator;
     protected ServerInstanceInterface   $server;
     protected LoadBalancerRuleInterface $loadBalancerRule;
 
-    abstract public function setServerAddresses(ServerListInterface $serverList): static;
+    abstract public function setServerAddresses(ServerIteratorInterface $serverIterator): static;
 
     abstract public function setRule(LoadBalancerRuleInterface $rule): static;
 
     /**
      * 获取当前正常服务的实例列表
      *
-     * @return ServerListInterface
+     * @return ServerIteratorInterface
      */
-    public function getReachableServers(): ServerListInterface
+    public function getReachableServers(): ServerIteratorInterface
     {
-        return $this->serverList->getReachableServers();
+        return $this->serverIterator->getReachableServers();
     }
 
     /**
      * 获取所有已知的服务实例列表，包括正常服务和停止服务的实例
      *
-     * @return ServerListInterface
+     * @return ServerIteratorInterface
      */
-    public function getAllServers(): ServerListInterface
+    public function getAllServers(): ServerIteratorInterface
     {
-        return $this->serverList->getAllServers();
+        return $this->serverIterator->getAllServers();
     }
 
     /**

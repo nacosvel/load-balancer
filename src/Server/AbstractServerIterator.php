@@ -5,9 +5,9 @@ namespace Nacosvel\LoadBalancer\Server;
 use ArrayIterator;
 use Nacosvel\LoadBalancer\Concerns\ArrayableTrait;
 use Nacosvel\LoadBalancer\Contracts\ServerInstanceInterface;
-use Nacosvel\LoadBalancer\Contracts\ServerListInterface;
+use Nacosvel\LoadBalancer\Contracts\ServerIteratorInterface;
 
-abstract class AbstractServerList extends ArrayIterator implements ServerListInterface
+abstract class AbstractServerIterator extends ArrayIterator implements ServerIteratorInterface
 {
     use ArrayableTrait;
 

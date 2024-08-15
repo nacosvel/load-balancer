@@ -3,18 +3,18 @@
 namespace Nacosvel\LoadBalancer;
 
 use Nacosvel\LoadBalancer\Contracts\LoadBalancerRuleInterface;
-use Nacosvel\LoadBalancer\Contracts\ServerListInterface;
+use Nacosvel\LoadBalancer\Contracts\ServerIteratorInterface;
 use Nacosvel\LoadBalancer\Rules\RandomRule;
-use Nacosvel\LoadBalancer\Server\ServerList;
+use Nacosvel\LoadBalancer\Server\ServerIterator;
 
 class LoadBalancer extends AbstractLoadBalancer
 {
     public function __construct(
-        ServerListInterface|array|string $serverAddresses = [],
-        ?LoadBalancerRuleInterface       $rule = null
+        ServerIteratorInterface|array|string $serverAddresses = [],
+        ?LoadBalancerRuleInterface           $rule = null
     )
     {
-        $this->serverList       = $serverAddresses instanceof ServerListInterface ? $serverAddresses : new ServerList($serverAddresses);
+        $this->serverIterator   = $serverAddresses instanceof ServerIteratorInterface ? $serverAddresses : new ServerIterator($serverAddresses);
         $this->loadBalancerRule = $rule instanceof LoadBalancerRuleInterface ? $rule : new RandomRule();
         $this->loadBalancerRule->setLoadBalancer($this);
     }
@@ -22,13 +22,13 @@ class LoadBalancer extends AbstractLoadBalancer
     /**
      * 服务实例清单更新
      *
-     * @param ServerListInterface $serverList
+     * @param ServerIteratorInterface $serverIterator
      *
-     * @return $this
+     * @return static
      */
-    public function setServerAddresses(ServerListInterface $serverList): static
+    public function setServerAddresses(ServerIteratorInterface $serverIterator): static
     {
-        $this->serverList = $serverList;
+        $this->serverIterator = $serverIterator;
         return $this;
     }
 
@@ -37,7 +37,7 @@ class LoadBalancer extends AbstractLoadBalancer
      *
      * @param LoadBalancerRuleInterface $rule
      *
-     * @return $this
+     * @return static
      */
     public function setRule(LoadBalancerRuleInterface $rule): static
     {
