@@ -49,9 +49,9 @@ class ServerInstance implements ServerInstanceInterface
         return $this->buildHashCode();
     }
 
-    public function getURI(): string
+    public function getURI(bool $isBasicAuthentication = false): string
     {
-        return $this->URI;
+        return $isBasicAuthentication ? $this->getGenerateURI(true) : $this->URI;
     }
 
     public function setURI(string $URI): static
@@ -67,9 +67,14 @@ class ServerInstance implements ServerInstanceInterface
         return $this->buildURI();
     }
 
-    protected function buildURI(): static
+    public function hashCode(): int
     {
-        $this->URI = Utils::build_url([
+        return $this->hashCode;
+    }
+
+    protected function getGenerateURI(bool $isBasicAuthentication = false): string
+    {
+        return Utils::build_url([
             'scheme'   => $this->getScheme(),
             'pass'     => $this->getPass(),
             'user'     => $this->getUser(),
@@ -78,7 +83,12 @@ class ServerInstance implements ServerInstanceInterface
             'path'     => $this->getPath(),
             'query'    => $this->getQuery(),
             'fragment' => $this->getFragment(),
-        ]);
+        ], true, $isBasicAuthentication);
+    }
+
+    protected function buildURI(bool $isBasicAuthentication = false): static
+    {
+        $this->URI = $this->getGenerateURI($isBasicAuthentication);
 
         return $this->buildHashCode();
     }
@@ -94,11 +104,6 @@ class ServerInstance implements ServerInstanceInterface
         self::$hashCodeTable[$this->hashCode] = $this;
 
         return $this;
-    }
-
-    public function hashCode(): int
-    {
-        return $this->hashCode;
     }
 
 }

@@ -109,12 +109,12 @@ trait ServerInstanceTrait
 
     abstract public function setAlive(bool $alive): static;
 
-    abstract public function getURI(): string;
+    abstract public function getURI(bool $isBasicAuthentication = false): string;
 
     abstract public function setURI(string $URI): static;
 
-    abstract protected function buildURI(): static;
-
     abstract public function hashCode(): int;
+
+    abstract protected function buildURI(): static;
 
 }
