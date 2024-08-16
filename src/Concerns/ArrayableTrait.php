@@ -69,7 +69,8 @@ trait ArrayableTrait
             $this->offsetUnset($this->key());
         }
 
-        if (array_is_list($serverInstances)) {
+        // @see https://www.php.net/manual/zh/function.array-is-list.php
+        if ($serverInstances === array_values($serverInstances)) {
             $serverInstances = $this->createServerInstanceWithoutWeight($serverInstances);
         } else {
             $serverInstances = $this->createServerInstanceWithWeight($serverInstances);
