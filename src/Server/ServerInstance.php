@@ -2,22 +2,10 @@
 
 namespace Nacosvel\LoadBalancer\Server;
 
-use InvalidArgumentException;
-use Nacosvel\LoadBalancer\Concerns\ServerInstanceTrait;
-use Nacosvel\LoadBalancer\Contracts\ServerInstanceInterface;
 use Nacosvel\Utils\Utils;
 
-class ServerInstance implements ServerInstanceInterface
+class ServerInstance extends AbstractServerInstance
 {
-    use ServerInstanceTrait;
-
-    protected int $hashCode = 0;
-
-    /**
-     * @var ServerInstance[]
-     */
-    public static array $hashCodeTable = [];
-
     public function __construct(
         protected string $URI,
         protected float  $weight = 1.0,
@@ -25,51 +13,6 @@ class ServerInstance implements ServerInstanceInterface
     )
     {
         $this->setURI($this->URI);
-    }
-
-    public function getWeight(): float
-    {
-        return $this->weight;
-    }
-
-    public function setWeight(float $weight): static
-    {
-        $this->weight = $weight;
-        return $this->buildHashCode();
-    }
-
-    public function isAlive(): bool
-    {
-        return $this->alive;
-    }
-
-    public function setAlive(bool $alive): static
-    {
-        $this->alive = $alive;
-        return $this->buildHashCode();
-    }
-
-    public function getURI(bool $isBasicAuthentication = false): string
-    {
-        return $isBasicAuthentication ? $this->getGenerateURI(true) : $this->URI;
-    }
-
-    public function setURI(string $URI): static
-    {
-        $components = parse_url($URI);
-
-        assert($components || throw new InvalidArgumentException("Invalid URI [{$URI}]"));
-
-        foreach ($components as $key => $value) {
-            $this->{$key} = $value;
-        }
-
-        return $this->buildURI();
-    }
-
-    public function hashCode(): int
-    {
-        return $this->hashCode;
     }
 
     protected function getGenerateURI(bool $isBasicAuthentication = false): string
