@@ -20,7 +20,8 @@
     "type": "library",
     "require": {
         "php": ">=8.0",
-        "nacosvel/helper": "^1.0"
+        "nacosvel/helper": "^1.0",
+        "symfony/cache": "^6.0"
     },
     "license": "MIT",
     "autoload": {
@@ -32,7 +33,5 @@
         "psr-4": {
             "Nacosvel\\LoadBalancer\\Test\\": "tests/"
         }
-    },
-    "minimum-stability": "stable",
-    "prefer-stable": true
+    }
 }
