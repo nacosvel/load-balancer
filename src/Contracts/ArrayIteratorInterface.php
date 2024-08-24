@@ -4,9 +4,12 @@ namespace Nacosvel\LoadBalancer\Contracts;
 
 use SeekableIterator;
 
+/**
+ * @deprecated Iterator
+ */
 interface ArrayIteratorInterface extends SeekableIterator
 {
-    // public function offsetExists(mixed $key): bool;
+    public function offsetExists(mixed $key): bool;
 
     public function offsetGet(mixed $key): ServerInstanceInterface;
 
