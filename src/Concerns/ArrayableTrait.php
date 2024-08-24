@@ -54,6 +54,7 @@ trait ArrayableTrait
      * @param AbstractServerIterator|array $serverInstances The new array or object to exchange with the current Iterator.
      *
      * @return ServerInstanceInterface[] the old iterator.
+     * @deprecated v0.1.0-snapshot
      */
     public function exchangeIterator(AbstractServerIterator|array $serverInstances): array
     {

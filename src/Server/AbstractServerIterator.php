@@ -11,6 +11,12 @@ abstract class AbstractServerIterator extends ArrayIterator implements ServerIte
 {
     use ArrayableTrait;
 
+    public function __construct(array $array = [], int $flags = 0)
+    {
+        // @see https://www.php.net/manual/zh/function.array-is-list.php
+        parent::__construct($array === array_values($array) ? $this->createServerInstanceWithoutWeight($array) : $this->createServerInstanceWithWeight($array), $flags);
+    }
+
     /**
      * 获取当前正常服务的实例列表
      *
