@@ -3,13 +3,13 @@
 namespace Nacosvel\LoadBalancer\Rules;
 
 use Exception;
+use Nacosvel\Helper\Utils;
 use Nacosvel\LoadBalancer\Contracts\LoadBalancerRuleInterface;
 use Nacosvel\LoadBalancer\Contracts\ServerInstanceInterface;
 use Nacosvel\LoadBalancer\Exceptions\InvalidArgumentExceptions;
 use Nacosvel\LoadBalancer\Exceptions\LoadBalancerExceptions;
 use Nacosvel\LoadBalancer\Exceptions\UnderflowExceptions;
 use Nacosvel\LoadBalancer\Server\ServerInstance;
-use Nacosvel\Utils\Utils;
 use OutOfBoundsException;
 use Override;
 

@@ -2,7 +2,7 @@
 
 namespace Nacosvel\LoadBalancer\Server;
 
-use Nacosvel\Utils\Utils;
+use Nacosvel\Helper\Utils;
 
 class ServerInstance extends AbstractServerInstance
 {
@@ -26,7 +26,7 @@ class ServerInstance extends AbstractServerInstance
             'path'     => $this->getPath(),
             'query'    => $this->getQuery(),
             'fragment' => $this->getFragment(),
-        ], true, $isBasicAuthentication);
+        ], PHP_URL_USER | PHP_URL_PASS);
     }
 
     protected function buildURI(bool $isBasicAuthentication = false): static
