@@ -21,7 +21,7 @@
     ],
     "require": {
         "php": ">=8.0",
-        "nacosvel/helper": "^3.0",
+        "nacosvel/helper": "^1.0",
         "symfony/cache": "^6.0"
     },
     "autoload": {
