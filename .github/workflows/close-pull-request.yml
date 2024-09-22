@@ -1,0 +1,13 @@
+name: Close Pull Request
+
+on:
+  pull_request_target:
+    types: [opened]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: superbrothers/close-pull-request@v3
+        with:
+          comment: "Thank you for your pull request. However, this pull request has not been merged yet. Please submit your PR on the https://github.com/nacosvel/nacosvel repository.<br><br>Thanks!"
